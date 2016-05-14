@@ -3,9 +3,11 @@ package com.example.germanriveros.android_tv2ba0a100;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.widget.Toast;
 
 /**
@@ -15,8 +17,10 @@ public class DialogActivity extends AppCompatActivity
 {
 
     private final CharSequence[] items = {"blue", "green", "yellow"};
+    private ProgressDialog barProgressDialog;
     private AlertDialog.Builder builder;
-
+    private Handler updateBarHandler;
+    private LayoutInflater inflater;
 
     @Override
     protected void onCreate(Bundle saveInstanceState)
@@ -26,8 +30,9 @@ public class DialogActivity extends AppCompatActivity
         //showDialog();
         //showDialogwithList();
         //showDialogwithCheckBox();
-        showRingDialog();
-
+        //showRingDialog();
+        //showBarDialog();
+        showCustomDialog();
 
     }//..
 
@@ -131,6 +136,95 @@ public class DialogActivity extends AppCompatActivity
 
 
     }//..
+
+
+    private void showBarDialog()
+    {
+
+        barProgressDialog = new ProgressDialog(DialogActivity.this);
+        updateBarHandler = new Handler();
+
+        barProgressDialog.setProgressStyle(barProgressDialog.STYLE_HORIZONTAL);
+        barProgressDialog.setMessage("Descargando...");
+        barProgressDialog.setTitle("Espere");
+        barProgressDialog.setProgress(0);
+        barProgressDialog.setMax(20);
+        barProgressDialog.show();
+
+
+        new Thread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                try
+                {
+                    while (barProgressDialog.getProgress() <= barProgressDialog.getMax())
+                    {
+
+                        Thread.sleep(2000);
+
+                        updateBarHandler.post(new Runnable()
+                        {
+                            @Override
+                            public void run()
+                            {
+                                barProgressDialog.incrementProgressBy(2);
+
+                            }
+                        });
+
+                        if(barProgressDialog.getProgress() == barProgressDialog.getMax())
+                        {
+
+                            barProgressDialog.dismiss();
+                        }
+                    }
+                }
+                catch (InterruptedException e)
+                {
+                    e.printStackTrace();
+                }
+
+            }
+        }).start();
+
+    }//..
+
+    private void showCustomDialog()
+    {
+
+        builder = new AlertDialog.Builder(this);
+        inflater = getLayoutInflater();
+        AlertDialog alert;
+
+        builder.setView(inflater.inflate(R.layout.dialog_custom, null))
+
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        finish();
+
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+
+
+                    }
+                });
+
+        alert = builder.create();
+        alert.show();
+
+
+    }//..
+
 
 
 }//.
