@@ -2,7 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.germanriveros.android_tv2ba0a100">
 
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
     <uses-permission android:name="android.permission.READ_CONTACTS"></uses-permission>
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
 
 
     <application
@@ -12,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".LayoutActivity">
+        <activity android:name=".LocationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,9 +24,8 @@
             </intent-filter>
         </activity>
 
-
+        <activity android:name=".LayoutActivity"></activity>
         <activity android:name=".MainActivity"></activity>
-
         <activity android:name=".SecondActivity"></activity>
 
         <receiver android:name=".HelloBroadcastReceiver">
@@ -31,7 +34,5 @@
             </intent-filter>
         </receiver>
 
-
     </application>
-
 </manifest>
