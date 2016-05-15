@@ -18,4 +18,5 @@ public class HelloBroadcastReceiver extends BroadcastReceiver
         Log.d("BroadcastReceiver","power is connected!");
 
     }
+
 }
